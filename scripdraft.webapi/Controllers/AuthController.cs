@@ -27,7 +27,7 @@ namespace scripdraft.webapi.Controllers
 
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                var tokeOptions = new JwtSecurityToken(
+                var tokenOptions = new JwtSecurityToken(
                     issuer: "http://localhost:5000",
                     audience: "http://localhost:5000",
                     claims: new List<Claim>(),
@@ -35,13 +35,37 @@ namespace scripdraft.webapi.Controllers
                     signingCredentials: signinCredentials
                 );
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
                 return Ok(new { Token = tokenString });
             }
             else
             {
                 return Unauthorized();
             }
+        }
+        
+        [HttpPost, Route("signup")]
+        public IActionResult Signup([FromBody]User user)
+        {
+            if (user == null)
+            {
+                return BadRequest("Invalid client request");
+            }
+
+            return Ok();
+        }
+
+        [HttpGet, Route("validate/username")]
+        public IActionResult ValidateUsername(string username)
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Username cannot be empty");
+            }
+
+            return Ok(isValid);
         }
     }
 }
