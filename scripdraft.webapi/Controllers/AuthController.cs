@@ -27,7 +27,7 @@ namespace scripdraft.webapi.Controllers
 
             if(_repository.Database == null)
             {
-                //_repository.Database = VSCDatabase.GetIDbConnection(configuration);
+                //_repository.Database = SDDatabase.Database;
             }
         }
         
