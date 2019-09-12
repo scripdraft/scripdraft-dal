@@ -1,4 +1,4 @@
-namespace scripdraft.webapi.Models
+namespace ScripDraft.Data.Entities
 {
     public class User
     {

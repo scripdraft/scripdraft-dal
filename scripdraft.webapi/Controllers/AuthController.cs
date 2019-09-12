@@ -4,8 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using scripdraft.webapi.Models;
+using ScripDraft.WebApi.Models;
+using ScripDraft.Data;
+using ScripDraft.Data.Entities;
 
 namespace scripdraft.webapi.Controllers
 {
@@ -13,9 +17,26 @@ namespace scripdraft.webapi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]User user)
+        private IRepository<User> _repository = null;
+        private readonly ILogger<AuthController> _logger;
+
+        public AuthController(IRepository<User> repository, IConfiguration configuration, ILogger<AuthController> logger)
         {
+            _repository = repository;
+            _logger = logger;
+
+            if(_repository.Database == null)
+            {
+                //_repository.Database = VSCDatabase.GetIDbConnection(configuration);
+            }
+        }
+        
+        [HttpPost, Route("login")]
+        public IActionResult Login([FromBody]UserModel user)
+        {
+            // var client = new MongoClient(settings.ConnectionString);
+            // Database = client.GetDatabase(settings.DatabaseName);
+
             if (user == null)
             {
                 return BadRequest("Invalid client request");
@@ -45,12 +66,16 @@ namespace scripdraft.webapi.Controllers
         }
         
         [HttpPost, Route("signup")]
-        public IActionResult Signup([FromBody]User user)
+        public IActionResult Signup([FromBody]UserModel user)
         {
             if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
+
+            ScripDraft.Data.Entities.User userEntity = UserModel.CreateEntity(user);
+
+            _repository.Insert(userEntity);
 
             return Ok();
         }
