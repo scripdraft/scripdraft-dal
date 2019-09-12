@@ -1,0 +1,4 @@
+namespace ScripDraft.Tests.DAL
+{
+
+}
