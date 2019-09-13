@@ -6,15 +6,12 @@ namespace ScripDraft.Data
 {
     public class SDDatabase
     {
-        private MongoClient _client = null;
-        IMongoDatabase _database = null;
-
-        public SDDatabase(IConfiguration configuration)
+        public static IMongoDatabase GetDatabase(IConfiguration configuration)
         {
-            _client = new MongoClient(DatabaseSettings.ReadConnectionString(configuration));
-            _database = _client.GetDatabase(DatabaseSettings.ReadDatabaseName(configuration));
-        }
+            MongoClient _client = new MongoClient(DatabaseSettings.ReadConnectionString(configuration));
+            IMongoDatabase _database = _client.GetDatabase(DatabaseSettings.ReadDatabaseName(configuration));
 
-        public IMongoDatabase Database => _database;
+            return _database;
+        }
     }
 }
