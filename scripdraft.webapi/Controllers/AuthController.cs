@@ -25,9 +25,9 @@ namespace scripdraft.webapi.Controllers
             _repository = repository;
             _logger = logger;
 
-            if(_repository.Database == null)
+            if(_repository.Database is null)
             {
-                //_repository.Database = SDDatabase.Database;
+                _repository.Database = SDDatabase.GetDatabase(configuration);
             }
         }
         

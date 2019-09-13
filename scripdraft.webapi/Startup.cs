@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using ScripDraft.Data;
+using ScripDraft.Data.Entities;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace scripdraft.webapi
@@ -63,6 +65,9 @@ namespace scripdraft.webapi
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton(this.Configuration);
+            services.AddTransient(typeof(IRepository<User>), typeof(UserRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
