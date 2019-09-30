@@ -31,7 +31,7 @@ namespace ScripDraft.Data
 
         public async Task Delete(Guid id)
         {            
-            var filter = new BsonDocument("Id", id);
+            var filter = new BsonDocument("_id", id);
             var result = await _users.FindOneAndDeleteAsync(filter);
         }
 
@@ -43,7 +43,7 @@ namespace ScripDraft.Data
 
         public async Task Update(Guid id, User entity)
         {
-            var result = await _users.ReplaceOneAsync(filter: new BsonDocument("Id", id), replacement: entity);
+            var result = await _users.ReplaceOneAsync(filter: new BsonDocument("_id", id), replacement: entity);
 
             return;
         }
