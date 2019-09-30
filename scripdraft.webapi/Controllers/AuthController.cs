@@ -75,7 +75,7 @@ namespace scripdraft.webapi.Controllers
 
             ScripDraft.Data.Entities.User userEntity = UserModel.CreateEntity(user);
 
-            _repository.Insert(userEntity);
+            _repository.InsertAsync(userEntity);
 
             return Ok();
         }

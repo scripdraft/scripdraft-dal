@@ -27,11 +27,11 @@ namespace ScripDraft.Tests.DAL
         {
             User expectedUser = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1", Password = "test1", Email = "test1@a.au" };
 
-            await _userRepository.Insert(expectedUser);
+            await _userRepository.InsertAsync(expectedUser);
 
-            User actualUser = await _userRepository.Load(expectedUser.Id);
+            User actualUser = await _userRepository.LoadAsync(expectedUser.Id);
 
-            await _userRepository.Delete(expectedUser.Id);
+            await _userRepository.DeleteAsync(expectedUser.Id);
 
             Assert.Equal(expectedUser.Id, actualUser.Id);            
         }
@@ -42,13 +42,13 @@ namespace ScripDraft.Tests.DAL
             User user1 = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1", Password = "test1", Email = "test1@a.au" };
             User user2 = new User() { Id = Guid.NewGuid(), Name = "user2", UserName = "user2", Password = "user2", Email = "user2@a.au" };
 
-            await _userRepository.Insert(user1);
-            await _userRepository.Insert(user2);
+            await _userRepository.InsertAsync(user1);
+            await _userRepository.InsertAsync(user2);
 
-            List<User> users = await _userRepository.Load();
+            List<User> users = await _userRepository.LoadAsync();
 
-            await _userRepository.Delete(user1.Id);
-            await _userRepository.Delete(user2.Id);
+            await _userRepository.DeleteAsync(user1.Id);
+            await _userRepository.DeleteAsync(user2.Id);
 
             Assert.True(users.Count == 2);
         }

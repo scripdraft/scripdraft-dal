@@ -13,28 +13,28 @@ namespace ScripDraft.Data
         /// Load all entities
         /// </summary>
         /// <returns>return a list of entities</returns>
-        Task<List<T>> Load();
+        Task<List<T>> LoadAsync();
         /// <summary>
         /// Load one entity by id
         /// </summary>
         /// <param name="id">Id of the entity</param>
         /// <returns>Matching entity</returns>
-        Task<T> Load(Guid id);
+        Task<T> LoadAsync(Guid id);
         /// <summary>
         /// Insert new entity or update existing one
         /// </summary>
         /// <param name="entity">New entity</param>
-        Task Insert(T entity);
+        Task InsertAsync(T entity);
         /// <summary>
         /// Delete entity by id
         /// </summary>
         /// <param name="id">id of the entity to delete</param>
-        Task Delete(Guid id);
+        Task DeleteAsync(Guid id);
         /// <summary>
         /// Update existing entity
         /// </summary>
         /// <param name="id">Id of the entity to update</param>
         /// <param name="entity">New values of the entity to update</param>
-        Task Update(Guid id, T entity);
+        Task UpdateAsync(Guid id, T entity);
     }
 }

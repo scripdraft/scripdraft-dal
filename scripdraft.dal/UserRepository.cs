@@ -29,23 +29,18 @@ namespace ScripDraft.Data
             }
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {            
             var filter = new BsonDocument("_id", id);
             var result = await _users.FindOneAndDeleteAsync(filter);
         }
 
-        public async Task Insert(User entity) => await _users.InsertOneAsync(entity);
+        public async Task InsertAsync(User entity) => await _users.InsertOneAsync(entity);
 
-        public async Task<List<User>> Load() => (await _users.FindAsync(user => true)).ToList();
+        public async Task<List<User>> LoadAsync() => (await _users.FindAsync(user => true)).ToList();
 
-        public async Task<User> Load(Guid id) => (await _users.FindAsync(user => user.Id == id)).FirstOrDefault();
+        public async Task<User> LoadAsync(Guid id) => (await _users.FindAsync(user => user.Id == id)).FirstOrDefault();
 
-        public async Task Update(Guid id, User entity)
-        {
-            var result = await _users.ReplaceOneAsync(filter: new BsonDocument("_id", id), replacement: entity);
-
-            return;
-        }
+        public async Task UpdateAsync(Guid id, User entity) => await _users.ReplaceOneAsync(filter: new BsonDocument("_id", id), replacement: entity);
     }
 }
