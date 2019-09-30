@@ -17,12 +17,12 @@ namespace scripdraft.webapi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IRepository<User> _repository = null;
+        private UserRepository _repository = null;
         private readonly ILogger<AuthController> _logger;
 
         public AuthController(IRepository<User> repository, IConfiguration configuration, ILogger<AuthController> logger)
         {
-            _repository = repository;
+            _repository = repository as UserRepository;
             _logger = logger;
 
             if(_repository.Database is null)
@@ -89,6 +89,10 @@ namespace scripdraft.webapi.Controllers
             {
                 return BadRequest("Username cannot be empty");
             }
+
+            User user = _repository.LoadByUsernameAsync(username).Result;
+
+            isValid = user is null is false;
 
             return Ok(isValid);
         }
