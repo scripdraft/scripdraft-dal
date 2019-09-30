@@ -32,17 +32,9 @@ namespace ScripDraft.Data
             throw new System.NotImplementedException();
         }
 
-        public async Task Insert(User entity)
-        {
-            await _users.InsertOneAsync(entity);
-        }
+        public async Task Insert(User entity) => await _users.InsertOneAsync(entity);
 
-        public async Task<List<User>> Load()
-        {
-            List<User> loadedUsers = (await _users.FindAsync(user => true)).ToList();
-
-            return loadedUsers;
-        }
+        public async Task<List<User>> Load() => (await _users.FindAsync(user => true)).ToList();
 
         public Task<User> Load(string id)
         {

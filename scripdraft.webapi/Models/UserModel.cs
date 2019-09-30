@@ -10,9 +10,8 @@ namespace ScripDraft.WebApi.Models
         public string Password { get; set; }
         public string Email { get; set; }
 
-        internal static User CreateEntity(UserModel model)
-        {
-            User entity = new User()
+        internal static User CreateEntity(UserModel model) => 
+            new User()
             {
                 Id = model.Id,
                 Name = model.Name,
@@ -20,8 +19,5 @@ namespace ScripDraft.WebApi.Models
                 Password = model.Password,
                 Email = model.Email
             };
-
-            return entity;
-        }
     }
 }
