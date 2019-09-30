@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
@@ -18,7 +19,7 @@ namespace ScripDraft.Data
         /// </summary>
         /// <param name="id">Id of the entity</param>
         /// <returns>Matching entity</returns>
-        Task<T> Load(string id);
+        Task<T> Load(Guid id);
         /// <summary>
         /// Insert new entity or update existing one
         /// </summary>
@@ -28,12 +29,12 @@ namespace ScripDraft.Data
         /// Delete entity by id
         /// </summary>
         /// <param name="id">id of the entity to delete</param>
-        Task Delete(string id);
+        Task Delete(Guid id);
         /// <summary>
         /// Update existing entity
         /// </summary>
         /// <param name="id">Id of the entity to update</param>
         /// <param name="entity">New values of the entity to update</param>
-        Task Update(string id, T entity);
+        Task Update(Guid id, T entity);
     }
 }

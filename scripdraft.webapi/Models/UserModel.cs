@@ -1,16 +1,17 @@
 using ScripDraft.Data.Entities;
+using System;
 
 namespace ScripDraft.WebApi.Models
 {
     public class UserModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
 
-        internal static User CreateEntity(UserModel model) => 
+        internal static User CreateEntity(UserModel model) =>
             new User()
             {
                 Id = model.Id,
