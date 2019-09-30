@@ -1,29 +1,38 @@
 using System;
+using System.IO;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
+
+using ScripDraft.Data;
 
 namespace ScripDraft.Tests.DAL
 {
     public class TestDBConnection : IDisposable
     {
+        private const string AppSettingsFile = "appsettings.json";
+        
+        private IConfiguration _configuration = null;
+
         public TestDBConnection()
         {
-        //     var database = VSCDatabase.GetSCInMemoryDatabase();
-
-        //     var serviceProvider = DatabaseMigrationRunner.CreateServices(database);
-        //     DatabaseMigrationRunner.MigrateDatabase(serviceProvider);
-
-        //     EntityMapper.InitEntityMaps();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(AppSettingsFile, optional: false, reloadOnChange: true);
+            
+            _configuration = builder.Build();
         }   
 
-        public void Dispose()
+        public async void Dispose()
         {
-           // Connection.Dispose();
+            await SDDatabase.DropDatabase(_configuration);
         }
 
-        // public IDbConnection Connection { 
-        //     get 
-        //     {
-        //         return VSCDatabase.GetInMemoryIDBConnection();
-        //     } 
-        // }
+        public IMongoDatabase Connection 
+        { 
+            get 
+            {
+                return SDDatabase.GetDatabase(_configuration);
+            } 
+        }
     }
 }
