@@ -52,5 +52,19 @@ namespace ScripDraft.Tests.DAL
 
             Assert.True(users.Count == 2);
         }
+
+        [Fact]
+        public async void CanLoadUserByUsername()
+        {
+            User expectedUser = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1_user", Password = "test1", Email = "test1@a.au" };
+
+            await _userRepository.InsertAsync(expectedUser);
+
+            User actualUser = await _userRepository.LoadByUsernameAsync(expectedUser.UserName);
+
+            await _userRepository.DeleteAsync(actualUser.Id);
+
+            Assert.Equal(expectedUser.Id, actualUser.Id);
+        }
     }
 }

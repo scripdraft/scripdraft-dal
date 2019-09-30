@@ -41,6 +41,8 @@ namespace ScripDraft.Data
 
         public async Task<User> LoadAsync(Guid id) => (await _users.FindAsync(user => user.Id == id)).FirstOrDefault();
 
+        public async Task<User> LoadByUsernameAsync(string username) => (await _users.FindAsync(user => user.UserName == username)).FirstOrDefault();
+
         public async Task UpdateAsync(Guid id, User entity) => await _users.ReplaceOneAsync(filter: new BsonDocument("_id", id), replacement: entity);
     }
 }
