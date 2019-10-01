@@ -23,18 +23,12 @@ namespace ScripDraft.Data
         /// <summary>
         /// Insert new entity or update existing one
         /// </summary>
-        /// <param name="entity">New entity</param>
-        Task InsertAsync(T entity);
+        /// <param name="entity">Entity</param>
+        Task UpsertAsync(T entity);
         /// <summary>
         /// Delete entity by id
         /// </summary>
         /// <param name="id">id of the entity to delete</param>
         Task DeleteAsync(Guid id);
-        /// <summary>
-        /// Update existing entity
-        /// </summary>
-        /// <param name="id">Id of the entity to update</param>
-        /// <param name="entity">New values of the entity to update</param>
-        Task UpdateAsync(Guid id, T entity);
     }
 }

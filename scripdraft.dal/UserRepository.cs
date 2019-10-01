@@ -35,14 +35,15 @@ namespace ScripDraft.Data
             var result = await _users.FindOneAndDeleteAsync(filter);
         }
 
-        public async Task InsertAsync(User entity) => await _users.InsertOneAsync(entity);
+        public async Task UpsertAsync(User entity) 
+        { 
+            await _users.ReplaceOneAsync(new BsonDocument("_id", entity.Id), entity, new UpdateOptions { IsUpsert = true });
+        }
 
         public async Task<List<User>> LoadAsync() => (await _users.FindAsync(user => true)).ToList();
 
         public async Task<User> LoadAsync(Guid id) => (await _users.FindAsync(user => user.Id == id)).FirstOrDefault();
 
         public async Task<User> LoadByUsernameAsync(string username) => (await _users.FindAsync(user => user.UserName == username)).FirstOrDefault();
-
-        public async Task UpdateAsync(Guid id, User entity) => await _users.ReplaceOneAsync(filter: new BsonDocument("_id", id), replacement: entity);
     }
 }

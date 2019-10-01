@@ -27,7 +27,7 @@ namespace ScripDraft.Tests.DAL
         {
             User expectedUser = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1", Password = "test1", Email = "test1@a.au" };
 
-            await _userRepository.InsertAsync(expectedUser);
+            await _userRepository.UpsertAsync(expectedUser);
 
             User actualUser = await _userRepository.LoadAsync(expectedUser.Id);
 
@@ -42,8 +42,8 @@ namespace ScripDraft.Tests.DAL
             User user1 = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1", Password = "test1", Email = "test1@a.au" };
             User user2 = new User() { Id = Guid.NewGuid(), Name = "user2", UserName = "user2", Password = "user2", Email = "user2@a.au" };
 
-            await _userRepository.InsertAsync(user1);
-            await _userRepository.InsertAsync(user2);
+            await _userRepository.UpsertAsync(user1);
+            await _userRepository.UpsertAsync(user2);
 
             List<User> users = await _userRepository.LoadAsync();
 
@@ -58,7 +58,7 @@ namespace ScripDraft.Tests.DAL
         {
             User expectedUser = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1_user", Password = "test1", Email = "test1@a.au" };
 
-            await _userRepository.InsertAsync(expectedUser);
+            await _userRepository.UpsertAsync(expectedUser);
 
             User actualUser = await _userRepository.LoadByUsernameAsync(expectedUser.UserName);
 
