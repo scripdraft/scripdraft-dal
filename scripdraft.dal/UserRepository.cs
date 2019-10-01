@@ -9,7 +9,7 @@ namespace ScripDraft.Data
 {
     public class UserRepository : IRepository<User>
     {
-        private const string CollectionName = "Users";
+        private const string CollectionName = "users";
         private IMongoCollection<User> _users;
         private IMongoDatabase _database = null;
 
