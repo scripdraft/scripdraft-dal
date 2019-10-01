@@ -32,7 +32,7 @@ namespace ScripDraft.Data
         public async Task DeleteAsync(Guid id)
         {            
             var filter = new BsonDocument("_id", id);
-            var result = await _users.FindOneAndDeleteAsync(filter);
+            var result = await _users.DeleteOneAsync(filter);
         }
 
         public async Task UpsertAsync(User entity) 
