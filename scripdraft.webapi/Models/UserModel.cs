@@ -14,7 +14,7 @@ namespace ScripDraft.WebApi.Models
         internal static User CreateEntity(UserModel model) =>
             new User()
             {
-                Id = model.Id,
+                Id = model.Id.ToString().Equals("00000000-0000-0000-0000-000000000000") ? Guid.NewGuid() : model.Id,
                 Name = model.Name,
                 UserName = model.UserName,
                 Password = model.Password,

@@ -73,26 +73,42 @@ namespace scripdraft.webapi.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            ScripDraft.Data.Entities.User userEntity = UserModel.CreateEntity(user);
+            bool isUsernameValid = ValidateUserByUsername(user.UserName);
 
-            var result = _repository.UpsertAsync(userEntity);
+            if(isUsernameValid)
+            {
+                return BadRequest(string.Format("User with username '{0}' already exists.", user.UserName));
+            }
+            else
+            {
+                ScripDraft.Data.Entities.User userEntity = UserModel.CreateEntity(user);
+
+                var result = _repository.UpsertAsync(userEntity);
+            }
 
             return Ok();
+        }
+
+        private bool ValidateUserByUsername(string username)
+        {
+            bool isValid = true;
+
+            User user = _repository.LoadByUsernameAsync(username).Result;
+
+            isValid = user is null is false;
+
+            return isValid;
         }
 
         [HttpGet, Route("validate/username")]
         public IActionResult ValidateUsername(string username)
         {
-            bool isValid = true;
-
             if (string.IsNullOrEmpty(username))
             {
                 return BadRequest("Username cannot be empty");
             }
 
-            User user = _repository.LoadByUsernameAsync(username).Result;
-
-            isValid = user is null is false;
+            bool isValid = ValidateUserByUsername(username);
 
             return Ok(isValid);
         }
