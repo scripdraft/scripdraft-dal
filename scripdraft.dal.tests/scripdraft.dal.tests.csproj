@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\scripdraft.dal\scripdraft.dal.csproj" />
+    <ProjectReference Include="..\scripdraft.webapi\scripdraft.webapi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

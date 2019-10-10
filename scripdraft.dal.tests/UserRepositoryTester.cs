@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MongoDB.Driver;
 using ScripDraft.Data;
 using ScripDraft.Data.Entities;
+using ScripDraft.WebApi.Models;
 using Xunit;
 
 namespace ScripDraft.Tests.DAL
@@ -25,8 +26,8 @@ namespace ScripDraft.Tests.DAL
         [Fact]
         public async void CanCreateUser()
         {
-            User expectedUser = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1", Password = "test1", Email = "test1@a.au" };
-
+            UserModel expectedUserModel = new UserModel() { Id = Guid.NewGuid(), Name = "test1", Username = "test1", Password = "test1", Email = "test1@a.au" };
+            User expectedUser = UserModel.CreateEntity(expectedUserModel);
             await _userRepository.UpsertAsync(expectedUser);
 
             User actualUser = await _userRepository.LoadAsync(expectedUser.Id);
@@ -39,8 +40,10 @@ namespace ScripDraft.Tests.DAL
         [Fact]
         public async void CanLoadMultipleUsers()
         {
-            User user1 = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1", Password = "test1", Email = "test1@a.au" };
-            User user2 = new User() { Id = Guid.NewGuid(), Name = "user2", UserName = "user2", Password = "user2", Email = "user2@a.au" };
+            UserModel userModel1 = new UserModel() { Id = Guid.NewGuid(), Name = "test1", Username = "test1", Password = "test1", Email = "test1@a.au" };
+            UserModel userModel2 = new UserModel() { Id = Guid.NewGuid(), Name = "user2", Username = "user2", Password = "user2", Email = "user2@a.au" };
+            User user1 = UserModel.CreateEntity(userModel1);
+            User user2 = UserModel.CreateEntity(userModel2);
 
             await _userRepository.UpsertAsync(user1);
             await _userRepository.UpsertAsync(user2);
@@ -56,11 +59,27 @@ namespace ScripDraft.Tests.DAL
         [Fact]
         public async void CanLoadUserByUsername()
         {
-            User expectedUser = new User() { Id = Guid.NewGuid(), Name = "test1", UserName = "test1_user", Password = "test1", Email = "test1@a.au" };
+            UserModel expectedUserModel = new UserModel() { Id = Guid.NewGuid(), Name = "test1", Username = "test1_user", Password = "test1", Email = "test1@a.au" };
+            User expectedUser = UserModel.CreateEntity(expectedUserModel);
 
             await _userRepository.UpsertAsync(expectedUser);
 
-            User actualUser = await _userRepository.LoadByUsernameAsync(expectedUser.UserName);
+            User actualUser = await _userRepository.LoadByUsernameAsync(expectedUser.Username);
+
+            await _userRepository.DeleteAsync(actualUser.Id);
+
+            Assert.Equal(expectedUser.Id, actualUser.Id);
+        }
+
+        [Fact]
+        public async void CanLoadByUsernamePassword()
+        {
+            UserModel expectedUserModel = new UserModel() { Id = Guid.NewGuid(), Name = "test1", Username = "test1_user", Password = "test1", Email = "test1@a.au" };
+            User expectedUser = UserModel.CreateEntity(expectedUserModel);
+
+            await _userRepository.UpsertAsync(expectedUser);
+
+            User actualUser = await _userRepository.LoadByUsernamePasswordAsync(expectedUser.Username, expectedUser.Password);
 
             await _userRepository.DeleteAsync(actualUser.Id);
 

@@ -42,7 +42,9 @@ namespace scripdraft.webapi.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            if (user.UserName == "testuser1" && user.Password == "testuser1")
+            
+
+            if (user.Username == "testuser1" && user.Password == "testuser1")
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
 
@@ -64,6 +66,15 @@ namespace scripdraft.webapi.Controllers
                 return Unauthorized();
             }
         }
+
+        private string GenerateToken(UserModel user)
+        {
+            string token = string.Empty;
+
+
+
+            return token;
+        }
         
         [HttpPost, Route("signup")]
         public IActionResult Signup([FromBody]UserModel user)
@@ -73,11 +84,11 @@ namespace scripdraft.webapi.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            bool isUsernameValid = ValidateUserByUsername(user.UserName);
+            bool isUsernameValid = ValidateUserByUsername(user.Username);
 
             if(isUsernameValid)
             {
-                return BadRequest(string.Format("User with username '{0}' already exists.", user.UserName));
+                return BadRequest(string.Format("User with username '{0}' already exists.", user.Username));
             }
             else
             {

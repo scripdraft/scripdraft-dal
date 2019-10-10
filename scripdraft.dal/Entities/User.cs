@@ -11,7 +11,7 @@ namespace ScripDraft.Data.Entities
         [BsonElement("name")]
         public string Name { get; set; }
         [BsonElement("username")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
         [BsonElement("password")]
         public string Password { get; set; }
         [BsonElement("email")]
