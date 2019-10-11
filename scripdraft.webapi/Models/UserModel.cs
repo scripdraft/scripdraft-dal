@@ -19,7 +19,6 @@ namespace ScripDraft.WebApi.Models
                 Id = model.Id.ToString().Equals("00000000-0000-0000-0000-000000000000") ? Guid.NewGuid() : model.Id,
                 Name = model.Name,
                 Username = model.Username,
-                Password = EncryptPassword(model.Password),
                 Email = model.Email
             };
 

@@ -7,7 +7,7 @@ using ScripDraft.Data.Entities;
 
 namespace ScripDraft.Data
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository
     {
         private const string CollectionName = "users";
         private IMongoCollection<User> _users;
@@ -36,13 +36,7 @@ namespace ScripDraft.Data
         }
 
         public async Task UpsertAsync(User entity) 
-        { 
-            // Check if user exists, use load by username
-
-            // if user does not exists, create new guid 
-
-            // ??? encrypt password
-            
+        {             
             await _users.ReplaceOneAsync(new BsonDocument("_id", entity.Id), entity, new UpdateOptions { IsUpsert = true });
         }
 
@@ -51,7 +45,5 @@ namespace ScripDraft.Data
         public async Task<User> LoadAsync(Guid id) => (await _users.FindAsync(user => user.Id == id)).FirstOrDefault();
 
         public async Task<User> LoadByUsernameAsync(string username) => (await _users.FindAsync(user => user.Username == username)).FirstOrDefault();
-
-        public async Task<User> LoadByUsernamePasswordAsync(string username, string password) => (await _users.FindAsync(user => user.Username == username && user.Password == password)).FirstOrDefault();
     }
 }
