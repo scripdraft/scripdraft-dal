@@ -18,7 +18,7 @@ namespace ScripDraft.Data
 
             get
             {
-                return _userRepository.Database;
+                return _userRepository is null ? null : _userRepository.Database;
             }
         }
 
